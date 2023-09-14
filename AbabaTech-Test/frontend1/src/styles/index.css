@@ -8,9 +8,10 @@ body, html {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('../assets//backgroud.jpg'); 
+  background-image: url('../assets//backgroudNew.jpg'); 
   background-size: cover; 
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
 }
 
 code {
