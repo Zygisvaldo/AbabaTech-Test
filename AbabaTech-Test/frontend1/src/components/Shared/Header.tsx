@@ -1,19 +1,10 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import { Menu, Typography, IconButton, Toolbar, Box, AppBar, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext'
+import { styled } from '@mui/system';
 
 const pages = [
   { path: '/', label: 'Home' },
@@ -26,6 +17,7 @@ function ResponsiveAppBar() {
   const { token, logout } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const location = useLocation();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -42,6 +34,14 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const StyledButton = styled(Button)(({ theme }) => ({
+    color: 'white',
+    '&.active': {
+      background: 'black',
+      color: 'white',
+      },
+    }));
+  
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -125,14 +125,15 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link key={page.label} to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Button
+              <Link key={page.label} to={page.path} style={{ textDecoration: 'black', color: 'white' }}>
+                <StyledButton
                   key={page.label}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 2, display: 'block' }}
+                  className={location.pathname === page.path ? 'active' : ''}
                 >
                   {page.label}
-                </Button>
+                </StyledButton>
             </Link>
             ))}
           </Box>
