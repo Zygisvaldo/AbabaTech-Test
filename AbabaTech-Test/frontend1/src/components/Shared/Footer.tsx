@@ -9,7 +9,7 @@ export default function BottomAppBar() {
         <Toolbar sx={{ justifyContent: 'center', color: 'white' }}>
           <Typography>
             © 2023 FavMovies app author: 
-            <Link href="linkedin.com/in/zigy-vaitkunas-51923088/" target="_blank" rel="noopener" color="inherit">
+            <Link href="https://www.linkedin.com/in/zigy-vaitkunas-51923088/" target="_blank" rel="noopener" color="inherit">
               Žygimantas Vaitkūnas
             </Link>
           </Typography>
