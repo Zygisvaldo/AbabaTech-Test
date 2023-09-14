@@ -67,20 +67,29 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       </Stack>
       <h2>{movie.title}</h2>
       <p>{movie.description}</p>
-      {isAuthenticated ? (
-        <Stack spacing={2} direction="row" sx={{ justifyContent: 'center' }}>
-          <Button variant="contained" onClick={handleEdit}>
-            Edit
-          </Button>
-          <Button variant="outlined" onClick={handleDelete}>
-            Delete
-          </Button>
-        </Stack>
-      ) : (
-        <p>
-          Please <Link to="/auth">log in</Link> to use CRUD functionalities.
-        </p>
-      )}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Button 
+          variant="contained"
+          color="secondary" 
+          onClick={() => navigate('/movies')} 
+          sx={{ color: 'white', marginBottom: 2 , marginTop: 2}}>
+          Back
+        </Button>
+        {isAuthenticated ? (
+          <Stack spacing={2} direction="row" sx={{ justifyContent: 'center' }}>
+            <Button variant="contained" onClick={handleEdit} sx={{ color: 'white' }}>
+              Edit
+            </Button>
+            <Button variant="outlined" onClick={handleDelete}>
+              Delete
+            </Button>
+          </Stack>
+        ) : (
+          <p>
+            Please <Link to="/auth">log in</Link> to use CRUD functionalities.
+          </p>
+        )}
+      </div>
       <DeleteConfirmationDialog
         open={dialogOpen}
         onClose={handleCloseDialog}

@@ -39,7 +39,7 @@ const CreateMovieButton: React.FC<CreateMovieButtonProps> = ({ onCreate }) => {
       <Stack sx={{ width: '100%', marginTop: 2, marginBottom: 2 }} spacing={2}>
         {success && <Alert severity="success">{success}</Alert>}
       </Stack>
-      <Button variant="contained" onClick={handleOpenDialog}>
+      <Button variant="contained" onClick={handleOpenDialog} sx={{ color: 'white' }}>
         Create Movie
       </Button>
       <MovieFormDialog

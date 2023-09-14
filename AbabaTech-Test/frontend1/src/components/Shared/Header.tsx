@@ -37,7 +37,7 @@ function ResponsiveAppBar() {
   const StyledButton = styled(Button)(({ theme }) => ({
     color: 'white',
     '&.active': {
-      background: 'black',
+      background: '#b388ff',
       color: 'white',
       },
     }));
