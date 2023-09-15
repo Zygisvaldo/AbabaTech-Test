@@ -8,6 +8,6 @@
 - Filtering/sorting etc. logic should be made in the backend
 - Routes should be moved to constants and not left in strings (reusability issue)
 - Inconsistent logic - some parts are moved to services for Http requests, some are not
-- Both in frontend and backend codebase was not cleaned up after initial setup
-- Commit messages does not say what was done
++ Both in frontend and backend codebase was not cleaned up after initial setup
++ Commit messages does not say what was done
 - Validations were not used
