@@ -26,7 +26,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, switchToLogin  }) => {
     try {
       const url = isLogin ? 'http://localhost:3000/auth/login' : 'http://localhost:3000/auth/register';
       const response = await axios.post(url, { username, password });
-      console.log(response.data);
+
       setSuccess(isLogin ? 'Login successful! Redirecting...' : 'Sign up successful! Please log in!');
       
       setTimeout(() => {

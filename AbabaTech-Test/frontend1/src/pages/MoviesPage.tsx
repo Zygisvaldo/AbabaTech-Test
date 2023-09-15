@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
       {isAuthenticated ? (
         <>
         <div style={{ marginBottom: '20px' }}>
-          <CreateMovieButton onCreate={(newMovie) => console.log('Created movie:', newMovie)} />
+          <CreateMovieButton />
         </div>
       </>
       ) : (

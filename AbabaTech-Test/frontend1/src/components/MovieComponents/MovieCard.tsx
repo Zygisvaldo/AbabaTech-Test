@@ -42,7 +42,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   };
 
   const handleConfirmEdit = async (editedMovie: Movie) => {
-    console.log('Edited movie:', editedMovie);
     try {
       await updateMovieById(editedMovie.id, editedMovie);
       setSuccess('Movie updated successfully! Reloading...')

@@ -4,11 +4,9 @@ import MovieFormDialog from './MovieFormDialog';
 import { createMovie } from '../../services/api';
 import { Alert, Button, Stack} from '@mui/material';
 
-interface CreateMovieButtonProps {
-  onCreate: (newMovie: Movie) => void;
-}
 
-const CreateMovieButton: React.FC<CreateMovieButtonProps> = ({ onCreate }) => {
+
+const CreateMovieButton: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [success, setSuccess] = useState('');
 
@@ -21,7 +19,6 @@ const CreateMovieButton: React.FC<CreateMovieButtonProps> = ({ onCreate }) => {
   };
 
   const handleCreateMovie = async (newMovie: Movie) => {
-    console.log('Created movie:', newMovie);
     try {
       await createMovie({ ...newMovie, id: 0 });
       setSuccess('Movie created successfully!')
