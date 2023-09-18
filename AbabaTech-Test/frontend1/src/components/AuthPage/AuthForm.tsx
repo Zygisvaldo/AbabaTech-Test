@@ -31,6 +31,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
       return;
     }
 
+    if (username.trim().length < 6) {
+      setError('Username must be at least 6 characters long');
+      return;
+    }
+
+    if (password.trim().length < 8) {
+      setError('Password must be at least 8 characters!');
+      return;
+    }
+
     try {
       let response: AuthResponse | null = null;
 

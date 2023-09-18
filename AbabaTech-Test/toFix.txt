@@ -10,4 +10,4 @@
 + Inconsistent logic - some parts are moved to services for Http requests, some are not
 + Both in frontend and backend codebase was not cleaned up after initial setup
 + Commit messages does not say what was done
-- Validations were not used
++ Validations were not used

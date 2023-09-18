@@ -39,6 +39,15 @@ const MovieFormDialog: React.FC<MovieFormDialogProps> = ({
       setError('Both title and description are required');
       return;
     }
+    if (editedMovie.title.trim().length < 3) {
+      setError('Title must be at least 3 characters long');
+      return;
+    }
+
+    if (editedMovie.description.trim().length < 10) {
+      setError('Description must be at least 10 characters!');
+      return;
+    }
     onSave(editedMovie);
     onClose();
   };
