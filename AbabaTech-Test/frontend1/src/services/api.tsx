@@ -64,3 +64,23 @@ Promise<void> => {
     throw error;
   }
 };
+
+export const loginService = async (username: string, password: string) => {
+  try {
+    const response = await axios.post(`${baseURL}/auth/login`, { username, password });
+    return response
+  } catch (error) {
+    console.error('Error during login:', error);
+    throw error;
+  }
+};
+
+export const registerService = async (username: string, password: string) => {
+  try {
+    const response = await axios.post(`${baseURL}/auth/register`, { username, password });
+    return response
+  } catch (error) {
+    console.error('Error during registration:', error);
+    throw error;
+  }
+};

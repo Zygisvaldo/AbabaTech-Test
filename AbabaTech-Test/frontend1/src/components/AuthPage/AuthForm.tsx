@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { Alert, Button, Stack, TextField } from '@mui/material';
 import { useAuthFormInput } from '../../hooks/useAuthFormInput';
+import { loginService, registerService } from '../../services/api';
 
 interface AuthFormProps {
   isLogin: boolean;
   switchToLogin: () => void;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ isLogin, switchToLogin  }) => {
+interface AuthResponse {
+  data: {
+    access_token: string;
+  };
+}
+
+const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { login } = useAuth();
@@ -25,19 +31,26 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, switchToLogin  }) => {
     }
 
     try {
-      const url = isLogin ? 'http://localhost:3000/auth/login' : 'http://localhost:3000/auth/register';
-      const response = await axios.post(url, { username, password });
+      let response: AuthResponse | null = null;
 
-      setSuccess(isLogin ? 'Login successful! Redirecting...' : 'Sign up successful! Please log in!');
-      
-      setTimeout(() => {
-        if (isLogin) {
-          login(response.data.access_token)
-        } else {
-          switchToLogin(); 
+      if (isLogin) {
+        response = await loginService(username, password);
+        if (response) {
+          setSuccess('Login successful! Redirecting...');
+          setTimeout(() => {
+            login(response!.data.access_token)
+          }, 1500);
+        }   
+      } else {
+        response = await registerService(username, password);
+        if (response) {
+          setSuccess('Sign up successful! You will be logged in automaticaly!');
+          setTimeout(() => {
+            login(response!.data.access_token)
+          }, 1500);
         }
-      }, 1500);
-      
+      }
+            
     } catch (error) {
       setError('Error occurred during authentication');
       console.error(error);
