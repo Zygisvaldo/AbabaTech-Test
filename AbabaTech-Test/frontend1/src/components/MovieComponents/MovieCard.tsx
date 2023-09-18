@@ -5,7 +5,7 @@ import { deleteMovieById, updateMovieById } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import MovieFormDialog from './MovieFormDialog';
-import { Alert, Button, Stack} from '@mui/material';
+import { Button, Stack} from '@mui/material';
 import { Link } from 'react-router-dom';
 
 interface MovieCardProps {
@@ -18,7 +18,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const navigate = useNavigate();
-  const [success, setSuccess] = useState('');
 
   const handleEdit = () => {
     setEditDialogOpen(true);
@@ -31,10 +30,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const handleConfirmDelete = async () => {
     try {
       await deleteMovieById(movie.id);
-      setSuccess('Movie deleted successfully! Reloading...')
-      setTimeout(() => {
         navigate('/movies');
-      }, 1500);
     } catch (error) {
       console.error('Error deleting movie:', error);
     }
@@ -44,10 +40,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const handleConfirmEdit = async (editedMovie: Movie) => {
     try {
       await updateMovieById(editedMovie.id, editedMovie);
-      setSuccess('Movie updated successfully! Reloading...')
-      setTimeout(() => {
         window.location.reload();
-      }, 1500);
     } catch (error) {
       console.error('Error deleting movie:', error);
     }
@@ -61,9 +54,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
 
   return (
     <div>
-      <Stack sx={{ width: '100%', marginTop: 2 }} spacing={2}>
-        {success && <Alert severity="success">{success}</Alert>}
-      </Stack>
       <h2>{movie.title}</h2>
       <p>{movie.description}</p>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>

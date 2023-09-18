@@ -17,7 +17,6 @@ interface AuthResponse {
 
 const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const { login } = useAuth();
 
   const { username, password, handleUsernameChange, handlePasswordChange } = useAuthFormInput();
@@ -36,18 +35,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
       if (isLogin) {
         response = await loginService(username, password);
         if (response) {
-          setSuccess('Login successful! Redirecting...');
-          setTimeout(() => {
-            login(response!.data.access_token)
-          }, 1500);
+          login(response!.data.access_token)
         }   
       } else {
         response = await registerService(username, password);
         if (response) {
-          setSuccess('Sign up successful! You will be logged in automaticaly!');
-          setTimeout(() => {
-            login(response!.data.access_token)
-          }, 1500);
+          login(response!.data.access_token)
         }
       }
             
@@ -61,7 +54,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
     <form onSubmit={handleSubmit}>
       <Stack sx={{ width: '100%', marginTop: 2 }} spacing={2}>
         {error && <Alert severity="error">{error}</Alert>}
-        {success && <Alert severity="success">{success}</Alert>}
       </Stack>
       <Stack sx={{ width: '100%', marginTop: 2 }} spacing={2}>
         <TextField

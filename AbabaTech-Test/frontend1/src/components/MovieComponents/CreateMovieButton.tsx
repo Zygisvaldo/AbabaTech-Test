@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { Movie } from '../../types';
 import MovieFormDialog from './MovieFormDialog';
 import { createMovie } from '../../services/api';
-import { Alert, Button, Stack} from '@mui/material';
-
-
+import { Button} from '@mui/material';
 
 const CreateMovieButton: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [success, setSuccess] = useState('');
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
@@ -21,10 +18,7 @@ const CreateMovieButton: React.FC = () => {
   const handleCreateMovie = async (newMovie: Movie) => {
     try {
       await createMovie({ ...newMovie, id: 0 });
-      setSuccess('Movie created successfully!')
-      setTimeout(() => {
         window.location.reload();
-      }, 1500);
     } catch (error) {
       console.error('Error creating movie:', error);
     }
@@ -33,9 +27,6 @@ const CreateMovieButton: React.FC = () => {
 
   return (
     <>
-      <Stack sx={{ width: '100%', marginTop: 2, marginBottom: 2 }} spacing={2}>
-        {success && <Alert severity="success">{success}</Alert>}
-      </Stack>
       <Button variant="contained" onClick={handleOpenDialog} sx={{ color: 'white' }}>
         Create Movie
       </Button>
