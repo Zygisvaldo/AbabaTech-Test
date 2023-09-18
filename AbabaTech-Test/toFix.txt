@@ -1,4 +1,4 @@
-- It would be better to create some kind of a hook to handle form inputs (e.g. AuthForm)
++ It would be better to create some kind of a hook to handle form inputs (e.g. AuthForm)
 + There are left debug console.log in the code base
 - Http requests logic should be moved to some services, so they are reusable (e.g. AuthForm)
 - There are some random setTimeout (AuthForm, CreateMovieButton)

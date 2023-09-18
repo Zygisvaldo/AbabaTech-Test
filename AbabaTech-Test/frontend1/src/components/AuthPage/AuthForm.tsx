@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { Alert, Button, Stack, TextField } from '@mui/material';
+import { useAuthFormInput } from '../../hooks/useAuthFormInput';
 
 interface AuthFormProps {
   isLogin: boolean;
@@ -9,11 +10,11 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ isLogin, switchToLogin  }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { login } = useAuth();
+
+  const { username, password, handleUsernameChange, handlePasswordChange } = useAuthFormInput();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,16 +42,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, switchToLogin  }) => {
       setError('Error occurred during authentication');
       console.error(error);
     }
-  };
-
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    setPassword(e.target.value);
   };
 
   return (
