@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import MovieCard from '../components/MovieComponents/MovieCard';
+import { fetchMovieById } from '../services/api';
 
 interface Movie {
   id: number;
@@ -16,8 +16,8 @@ const MovieDetails: React.FC = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await axios.get<Movie>(`http://localhost:3000/movies/${id}`);
-        setMovie(response.data);
+        const movieData = await fetchMovieById(Number(id));
+        setMovie(movieData);
       } catch (error) {
         console.error('Error fetching movie details:', error);
       }

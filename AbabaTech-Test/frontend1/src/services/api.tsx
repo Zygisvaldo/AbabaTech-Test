@@ -17,6 +17,16 @@ export const fetchAllMovies = async (): Promise<Movie[]> => {
   }
 };
 
+export const fetchMovieById = async (id: number): Promise<Movie> => {
+  try {
+    const response = await axios.get<Movie>(`${baseURL}/movies/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching movie ${id}:`, error);
+    throw error;
+  }
+};
+
 export const deleteMovieById = async (movieId: number): Promise<void> => {
   try {
     const token = getToken();
