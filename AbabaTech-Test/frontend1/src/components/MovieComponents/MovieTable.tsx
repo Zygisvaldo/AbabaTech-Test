@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TextField, Paper, TableSortLabel, TableRow, TablePagination, TableHead, TableContainer, TableCell, TableBody, Table, Box } from '@mui/material';
+import { TextField, Paper, TableSortLabel, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, Box } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { Link } from 'react-router-dom';
+import PaginationComponent from './PaginationComponent';
 
 interface Data {
   description: string;
@@ -245,12 +246,10 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
+        <PaginationComponent 
           count={totalCount}
-          rowsPerPage={rowsPerPage}
           page={page}
+          rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
