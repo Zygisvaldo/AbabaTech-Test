@@ -11,7 +11,7 @@ import AuthProvider from './contexts/AuthContext';
 import SimpleContainer from './components/Shared/PageContainer'
 import { SuccessMessageProvider } from './contexts/SuccessMessageContext';
 import SuccessMessageAlert from './components/Shared/SuccessMessageAlert';
-
+import { ROUTES } from './Routes';
 
 function App() {
   return (
@@ -23,10 +23,10 @@ function App() {
               <SimpleContainer>
                 <SuccessMessageAlert />
                   <Routes>
-                    <Route path="/" element={<HomePage/>} />
-                    <Route path="/movies" element={<MoviesPage />} />
-                    <Route path="/movies/:id" element={<MovieDetailsPage />} />
-                    <Route path="/auth" element={<AuthPage />} />
+                    <Route path={ROUTES.HOME} element={<HomePage/>} />
+                    <Route path={ROUTES.MOVIES} element={<MoviesPage />} />
+                    <Route path={ROUTES.MOVIE_DETAILS} element={<MovieDetailsPage />} />
+                    <Route path={ROUTES.AUTH} element={<AuthPage />} />
                   </Routes>
               </SimpleContainer>
             <Footer />
