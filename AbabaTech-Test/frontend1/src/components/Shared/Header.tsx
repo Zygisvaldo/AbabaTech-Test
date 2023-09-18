@@ -5,6 +5,7 @@ import SportsBarIcon from '@mui/icons-material/SportsBar';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext'
 import { styled } from '@mui/system';
+import { useSuccessMessage } from '../../contexts/SuccessMessageContext';
 
 const pages = [
   { path: '/', label: 'Home' },
@@ -18,6 +19,8 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const location = useLocation();
+  const { setSuccessMessage } = useSuccessMessage() ?? { setSuccessMessage: () => {} };
+
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -32,6 +35,12 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    handleCloseUserMenu(); 
+    logout(); 
+    setSuccessMessage('Logout successful!');
   };
 
   const StyledButton = styled(Button)(({ theme }) => ({
@@ -161,7 +170,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             > 
               {token ? (
-                <MenuItem onClick={() => { handleCloseUserMenu(); logout(); }}>
+                <MenuItem onClick={() => { handleLogout(); }}>
                   <Typography textAlign="center">Log out</Typography>
                 </MenuItem>
               ) : (

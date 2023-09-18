@@ -7,6 +7,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import MovieFormDialog from './MovieFormDialog';
 import { Button, Stack} from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useSuccessMessage } from '../../contexts/SuccessMessageContext';
 
 interface MovieCardProps {
   movie: Movie;
@@ -18,6 +19,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const { setSuccessMessage } = useSuccessMessage()!;
 
   const handleEdit = () => {
     setEditDialogOpen(true);
@@ -31,6 +33,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     try {
       await deleteMovieById(movie.id);
         navigate('/movies');
+        setSuccessMessage('Movie deleted successfully !');
     } catch (error) {
       console.error('Error deleting movie:', error);
     }
@@ -40,6 +43,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const handleConfirmEdit = async (editedMovie: Movie) => {
     try {
       await updateMovieById(editedMovie.id, editedMovie);
+        setSuccessMessage('Movie edited successfully !');
         window.location.reload();
     } catch (error) {
       console.error('Error deleting movie:', error);

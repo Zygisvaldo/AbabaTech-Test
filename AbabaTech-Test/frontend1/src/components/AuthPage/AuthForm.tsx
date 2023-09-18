@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Alert, Button, Stack, TextField } from '@mui/material';
 import { useAuthFormInput } from '../../hooks/useAuthFormInput';
 import { loginService, registerService } from '../../services/api';
+import { useSuccessMessage } from '../../contexts/SuccessMessageContext';
 
 interface AuthFormProps {
   isLogin: boolean;
@@ -18,6 +19,7 @@ interface AuthResponse {
 const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   const [error, setError] = useState('');
   const { login } = useAuth();
+  const { setSuccessMessage } = useSuccessMessage()!;
 
   const { username, password, handleUsernameChange, handlePasswordChange } = useAuthFormInput();
 
@@ -35,11 +37,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
       if (isLogin) {
         response = await loginService(username, password);
         if (response) {
+          setSuccessMessage('LogIn successful!');
           login(response!.data.access_token)
         }   
       } else {
         response = await registerService(username, password);
         if (response) {
+          setSuccessMessage('SignUp successful! You are logged in!');
           login(response!.data.access_token)
         }
       }
