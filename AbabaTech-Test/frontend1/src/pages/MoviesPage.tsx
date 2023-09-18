@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { fetchAllMovies } from '../services/api';
 import { Movie } from '../types';
 import SimpleContainer from '../components/Shared/PageContainer'
-import CreateMovieButton from '../components/MovieComponents/CreateMovieButton';
+import CreateMovieButton from '../containers/MovieCreationHandler';
 import { AuthContext } from '../contexts/AuthContext';
 
 const HomePage: React.FC = () => {
