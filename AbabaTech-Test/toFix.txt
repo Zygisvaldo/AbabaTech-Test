@@ -1,6 +1,6 @@
 + It would be better to create some kind of a hook to handle form inputs (e.g. AuthForm)
 + There are left debug console.log in the code base
-- Http requests logic should be moved to some services, so they are reusable (e.g. AuthForm)
++ Http requests logic should be moved to some services, so they are reusable (e.g. AuthForm)
 - There are some random setTimeout (AuthForm, CreateMovieButton)
 - Some components name do not match with what actually is happening - e.g. "CreateMovieButton" should be just a button form the name, but it also does the creation stuff
 - Inconsistent code base - sometimes ES6 arrow functions are used, sometimes "funciton" syntax is used
