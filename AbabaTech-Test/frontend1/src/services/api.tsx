@@ -7,9 +7,11 @@ const getToken = (): string | null => {
   return localStorage.getItem('token');
 };
 
-export const fetchAllMovies = async (): Promise<Movie[]> => {
+export const fetchAllMovies = async (queryParams?: { order?: string, orderBy?: string, searchQuery?: string }): Promise<Movie[]> => {
   try {
-    const response = await axios.get<Movie[]>(`${baseURL}/movies`);
+    const response = await axios.get<Movie[]>(`${baseURL}/movies`, { 
+      params: queryParams,
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching movies:', error);

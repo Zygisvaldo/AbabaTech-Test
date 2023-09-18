@@ -131,6 +131,10 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
   React.useEffect(() => {
+    console.log('Movies prop changed:', movies);
+  }, [movies]);
+
+  React.useEffect(() => {
     setPage(0);
   }, [searchQuery]);
 
@@ -185,7 +189,7 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
   return (
     
     <Box sx={{ width: '100%' }}>
-      <TextField
+      {/* <TextField
           label="Search"
           fullWidth
           value={searchQuery}
@@ -194,7 +198,7 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
           borderRadius: '4px',
           opacity: '0.9', 
          }}
-        />
+        /> */}
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer>
           <Table

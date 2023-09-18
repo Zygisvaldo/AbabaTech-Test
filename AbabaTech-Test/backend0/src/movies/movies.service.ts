@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Movie } from './movie.entity';
+import { QueryParamsDto } from './queryParams.dto';
 
 @Injectable()
 export class MoviesService {
@@ -15,8 +16,20 @@ export class MoviesService {
     return await this.moviesRepository.save(movie) as Movie;
   }
 
-  findAll(): Promise<Movie[]> {
-    return this.moviesRepository.find();
+  findAll(queryParams: QueryParamsDto): Promise<Movie[]> {
+    const { searchQuery, order, orderBy } = queryParams;
+    console.log('Received query parameters:', { searchQuery, order, orderBy });
+    const query = this.moviesRepository.createQueryBuilder('movie');
+  
+    if (searchQuery) {
+      query.where('LOWER(movie.title) LIKE LOWER(:searchQuery) OR LOWER(movie.description) LIKE LOWER(:searchQuery)', { searchQuery: `%${searchQuery}%` });
+    }
+  
+    if (order && orderBy) {
+      query.orderBy(`movie.${orderBy}`, order.toUpperCase() as 'ASC' | 'DESC');
+    }
+  
+    return query.getMany();
   }
   
   async findOne(id: number): Promise<Movie | undefined> {

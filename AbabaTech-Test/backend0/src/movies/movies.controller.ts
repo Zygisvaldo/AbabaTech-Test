@@ -2,6 +2,8 @@ import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards } from '@nes
 import { MoviesService } from './movies.service';
 import { Movie } from './movie.entity';
 import { JwtAuthGuard } from '../auth/jwt-atuh.guard';
+import { QueryParamsDto } from './queryParams.dto';
+import { Query } from '@nestjs/common';
 
 @Controller('movies')
 export class MoviesController {
@@ -14,8 +16,8 @@ export class MoviesController {
   }
 
   @Get()
-  findAll(): Promise<Movie[]> {
-    return this.moviesService.findAll();
+  findAll(@Query() queryParams: QueryParamsDto): Promise<Movie[]> {
+    return this.moviesService.findAll(queryParams);
   }
 
   @Get(':id')
