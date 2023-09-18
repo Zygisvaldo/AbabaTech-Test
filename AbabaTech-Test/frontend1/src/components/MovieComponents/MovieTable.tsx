@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Paper, TableSortLabel, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, Box } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
+import { Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PaginationComponent from './PaginationComponent';
 
@@ -17,42 +16,6 @@ interface Movie {
 
 interface MovieTableProps {
   movies: Movie[];
-}
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = 'asc' | 'desc';
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key,
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
-) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
 }
 
 interface HeadCell {
@@ -77,21 +40,8 @@ const headCells: readonly HeadCell[] = [
   }
 ];
 
-interface EnhancedTableProps {
-  
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-  order: Order;
-  orderBy: string;
-}
 
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } =
-    props;
-  const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
+function EnhancedTableHead() {
   return (
     <TableHead>
       <TableRow>
@@ -102,20 +52,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align={'left'}
             padding={'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
           </TableCell>
         ))}
       </TableRow>
@@ -124,19 +62,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 export default function EnhancedTable({ movies }: MovieTableProps) {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('description');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  React.useEffect(() => {
-    console.log('Movies prop changed:', movies);
-  }, [movies]);
-
-  React.useEffect(() => {
-    setPage(0);
-  }, [searchQuery]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(rowsPerPage);
 
   const createData = (title: string, description: string, id: number) => {
     return { title, description, id };
@@ -147,58 +76,39 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
     return movies.length ? movies.map(movie => createData(movie.title, movie.description, movie.id)) : [];
   }, [movies]);
 
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data,
-  ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const handleChangePage = (event: unknown, newPage: number) => {
+    const startIndex = newPage * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
     setPage(newPage);
+    setStartIndex(startIndex);
+    setEndIndex(endIndex);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    const newPage = Math.floor(startIndex / newRowsPerPage);
+    const newStartIndex = newPage * newRowsPerPage;
+    const newEndIndex = newStartIndex + newRowsPerPage;
+
+    setRowsPerPage(newRowsPerPage);
+    setPage(newPage);
+    setStartIndex(newStartIndex);
+    setEndIndex(newEndIndex);
   };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const filteredRows = React.useMemo(() => {
-    return rows.filter((row) =>
-      row.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [rows, searchQuery]);
   
   const visibleRows = React.useMemo(
-    () =>
-      stableSort(filteredRows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage, filteredRows],
+    () => rows.slice(startIndex, endIndex),
+    [rows, startIndex, endIndex]
   );
 
-  const totalCount = filteredRows.length;
+  const totalCount = rows.length;
 
   return (
     
     <Box sx={{ width: '100%' }}>
-      {/* <TextField
-          label="Search"
-          fullWidth
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ my: 2, mr: 2, backgroundColor: 'white',
-          borderRadius: '4px',
-          opacity: '0.9', 
-         }}
-        /> */}
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer>
           <Table
@@ -206,13 +116,9 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
             aria-labelledby="FavMoviesTable"
             size={'medium'}
           >
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-            />
+            <EnhancedTableHead />
             <TableBody>
-              {filteredRows.length === 0 ? (
+              {rows.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} align="center">
                     No matches found

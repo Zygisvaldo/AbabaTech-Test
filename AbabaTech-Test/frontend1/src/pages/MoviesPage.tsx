@@ -6,6 +6,7 @@ import { Movie } from '../types';
 import SimpleContainer from '../components/Shared/PageContainer'
 import CreateMovieButton from '../containers/MovieCreationHandler';
 import { AuthContext } from '../contexts/AuthContext';
+import { TextField, Select, MenuItem, Box } from '@mui/material';
 
 const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -30,10 +31,8 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        console.log('Query parameters:', { order, orderBy, searchQuery });
         const moviesData  = await fetchAllMovies({ order, orderBy, searchQuery });
         setMovies(moviesData);
-        console.log('Movies updated:', moviesData);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching movies:', error);
@@ -56,26 +55,50 @@ const HomePage: React.FC = () => {
           color: 'white'
         }}>Please log in to use CRUD for movies.</h1>
       )}
-      <div style={{ marginBottom: '20px' }}>
-          <input 
-            type="text" 
-            placeholder="Search..." 
-            value={searchQuery} 
-            onChange={(e) => handleSearchQueryChange(e.target.value)} 
-          />
-          <select onChange={(e) => handleOrderByChange(e.target.value)} value={orderBy}>
-            <option value="title">Title</option>
-            <option value="description">Description</option>
-          </select>
-          <select onChange={(e) => handleOrderChange(e.target.value as 'ASC' | 'DESC')} value={order}>
-            <option value="ASC">Ascending</option>
-            <option value="DESC">Descending</option>
-          </select>
-        </div>      
+      <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ marginBottom: '20px' }}>
+        <Select
+          sx={{
+            backgroundColor: 'white',
+            borderRadius: '4px',
+            opacity: '0.9',
+            minWidth: '120px', // Adjust the width as needed
+          }}
+          onChange={(e) => handleOrderByChange(e.target.value)}
+          value={orderBy.toString()}
+        >
+          <MenuItem value="title">Title</MenuItem>
+          <MenuItem value="description">Description</MenuItem>
+        </Select>
+        <Select
+          sx={{
+            backgroundColor: 'white',
+            borderRadius: '4px',
+            opacity: '0.9',
+            minWidth: '120px', // Adjust the width as needed
+          }}
+          onChange={(e) => handleOrderChange(e.target.value as 'ASC' | 'DESC')}
+          value={order.toString()}
+        >
+          <MenuItem value="ASC">Ascending</MenuItem>
+          <MenuItem value="DESC">Descending</MenuItem>
+        </Select>
+        <TextField
+          label="Search"
+          fullWidth
+          value={searchQuery}
+          onChange={(e) => handleSearchQueryChange(e.target.value)}
+          sx={{
+            backgroundColor: 'white',
+            borderRadius: '4px',
+            opacity: '0.9',
+            minWidth: '200px', // Adjust the width as needed
+          }}
+        />
+      </Box>
       {loading ? (
       <CircularProgress />
       ) : (
-        <MovieTable movies={movies} key={JSON.stringify(movies)} />
+        <MovieTable movies={movies} />
       )}
     </SimpleContainer>
   );
