@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { Movie } from '../types';
 import MovieFormDialog from '../components/MovieComponents/MovieFormDialog';
-import { createMovie } from '../services/api';
+import { createMovie, updateMovieById } from '../services/api';
 import { Button} from '@mui/material';
 import { useSuccessMessage } from '../contexts/SuccessMessageContext';
 
-const CreateMovieButton = () => {
+interface CreateOrEditMovieHandlerProps {
+  movie: Movie;
+  isCreate: boolean;
+}
+
+const CreateOrEditMovieHandler = ({movie, isCreate}: CreateOrEditMovieHandlerProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { setSuccessMessage } = useSuccessMessage()!;
 
@@ -28,20 +33,31 @@ const CreateMovieButton = () => {
     handleCloseDialog();
   };
 
+  const handleEditMovie = async (editedMovie: Movie) => {
+    try {
+      await updateMovieById(editedMovie.id, editedMovie);
+        setSuccessMessage('Movie edited successfully !');
+        window.location.reload();
+    } catch (error) {
+      console.error('Error editing movie:', error);
+    }
+    handleCloseDialog();
+  };
+
   return (
     <>
       <Button variant="contained" onClick={handleOpenDialog} sx={{ color: 'white' }}>
-        Create Movie
+        {isCreate ? 'Create Movie' : 'Edit'}
       </Button>
       <MovieFormDialog
         open={dialogOpen}
         onClose={handleCloseDialog}
-        movie={{ title: '', description: '', id: 0 }}
-        onSave={handleCreateMovie}
-        isCreate={true}
+        movie={movie}
+        onSave={isCreate ? handleCreateMovie : handleEditMovie}
+        isCreate={isCreate}
       />
     </>
   );
 };
 
-export default CreateMovieButton;
+export default CreateOrEditMovieHandler;

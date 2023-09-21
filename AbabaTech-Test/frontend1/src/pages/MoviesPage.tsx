@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { fetchAllMovies } from '../services/api';
 import { Movie } from '../types';
 import SimpleContainer from '../components/Shared/PageContainer'
-import CreateMovieButton from '../containers/MovieCreationHandler';
+import CreateOrEditMovieHandler from '../containers/CreateOrEditMovieHandler';
 import { AuthContext } from '../contexts/AuthContext';
 import { TextField, Select, MenuItem, Box } from '@mui/material';
 
@@ -48,7 +48,7 @@ const HomePage = () => {
       {isAuthenticated ? (
         <>
         <div style={{ marginBottom: '20px' }}>
-          <CreateMovieButton />
+          <CreateOrEditMovieHandler movie={{ title: '', description: '', id: 0 }} isCreate={true} />
         </div>
       </>
       ) : (

@@ -1,13 +1,11 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { Movie } from '../../types';
 import DeleteMovieHandler from '../../containers/MovieDeletionHandler'
-import { updateMovieById } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
-import MovieFormDialog from './MovieFormDialog';
+import CreateOrEditMovieHandler from '../../containers/CreateOrEditMovieHandler';
 import { Button, Stack} from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useSuccessMessage } from '../../contexts/SuccessMessageContext';
 import { ROUTES } from '../../Routes';
 
 interface MovieCardProps {
@@ -15,30 +13,9 @@ interface MovieCardProps {
 }
 
 const MovieCard = ({ movie }: MovieCardProps) => {
-  
+
   const { isAuthenticated } = useContext(AuthContext);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const navigate = useNavigate();
-  const { setSuccessMessage } = useSuccessMessage()!;
-
-  const handleEdit = () => {
-    setEditDialogOpen(true);
-  };
-
-  const handleConfirmEdit = async (editedMovie: Movie) => {
-    try {
-      await updateMovieById(editedMovie.id, editedMovie);
-        setSuccessMessage('Movie edited successfully !');
-        window.location.reload();
-    } catch (error) {
-      console.error('Error editing movie:', error);
-    }
-    setEditDialogOpen(false);
-  };
-
-  const handleCloseDialog = () => {
-    setEditDialogOpen(false);
-  };
 
   return (
     <div>
@@ -54,9 +31,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
         </Button>
         {isAuthenticated ? (
           <Stack spacing={2} direction="row" sx={{ justifyContent: 'center' }}>
-            <Button variant="contained" onClick={handleEdit} sx={{ color: 'white' }}>
-              Edit
-            </Button>
+            <CreateOrEditMovieHandler movie={movie} isCreate={false}/>
             <DeleteMovieHandler movieId={movie.id}/>
           </Stack>
         ) : (
@@ -65,15 +40,6 @@ const MovieCard = ({ movie }: MovieCardProps) => {
           </p>
         )}
       </div>
-      <MovieFormDialog
-        open={editDialogOpen}
-        onClose={handleCloseDialog}
-        movie={movie}
-        onSave={(editedMovie) => {
-          handleConfirmEdit(editedMovie);
-        }}
-        isCreate={!movie.id}
-      />
     </div>
   );
 };
