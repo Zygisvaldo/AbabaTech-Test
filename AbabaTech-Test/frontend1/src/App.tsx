@@ -13,7 +13,7 @@ import { SuccessMessageProvider } from './contexts/SuccessMessageContext';
 import SuccessMessageAlert from './components/Shared/SuccessMessageAlert';
 import { ROUTES } from './Routes';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <AuthProvider>

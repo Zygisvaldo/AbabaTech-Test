@@ -15,7 +15,7 @@ const pages = [
 
 const settings = [{ path: ROUTES.AUTH, label: 'Log In' }];
 
-function ResponsiveAppBar() {
+const ResponsiveAppBar = () => {
   const { token, logout } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);

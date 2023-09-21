@@ -42,7 +42,8 @@ const headCells: readonly HeadCell[] = [
 ];
 
 
-function EnhancedTableHead() {
+const EnhancedTableHead = () => {
+
   return (
     <TableHead>
       <TableRow>
@@ -62,7 +63,7 @@ function EnhancedTableHead() {
   );
 }
 
-export default function EnhancedTable({ movies }: MovieTableProps) {
+const EnhancedTable = ({ movies }: MovieTableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [startIndex, setStartIndex] = useState(0);
@@ -168,3 +169,5 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
     </Box>
   );
 }
+
+export default EnhancedTable

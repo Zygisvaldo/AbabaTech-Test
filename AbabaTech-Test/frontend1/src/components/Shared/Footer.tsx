@@ -2,7 +2,7 @@ import * as React from 'react';
 import {AppBar, Typography, Toolbar } from '@mui/material';
 import Link from '@mui/material/Link';
 
-export default function BottomAppBar() {
+const BottomAppBar = () => {
   return (
     <React.Fragment>
       <AppBar position="static" color="secondary" sx={{ top: 'auto', bottom: 0 }}>
@@ -18,3 +18,6 @@ export default function BottomAppBar() {
     </React.Fragment>
   );
 }
+
+
+export default BottomAppBar

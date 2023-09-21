@@ -12,7 +12,7 @@ const containerStyle = {
   flex: 1, 
 };
 
-export default function SimpleContainer({ children }: SimpleContainerProps) {
+const SimpleContainer = ({ children }: SimpleContainerProps) => {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -22,3 +22,5 @@ export default function SimpleContainer({ children }: SimpleContainerProps) {
     </React.Fragment>
   );
 }
+
+export default SimpleContainer
