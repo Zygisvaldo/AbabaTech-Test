@@ -47,7 +47,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         setSuccessMessage('Movie edited successfully !');
         window.location.reload();
     } catch (error) {
-      console.error('Error deleting movie:', error);
+      console.error('Error editing movie:', error);
     }
     setEditDialogOpen(false);
   };

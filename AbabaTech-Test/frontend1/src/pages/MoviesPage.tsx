@@ -30,6 +30,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
+      setLoading(true);
       try {
         const moviesData  = await fetchAllMovies({ order, orderBy, searchQuery });
         setMovies(moviesData);

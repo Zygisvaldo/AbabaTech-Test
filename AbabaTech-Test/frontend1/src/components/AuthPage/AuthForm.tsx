@@ -59,7 +59,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
       }
             
     } catch (error) {
-      setError('Error occurred during authentication');
+      setError(`Error ${isLogin? 'Logging In' : 'Signing Up'} ${error}`);
       console.error(error);
     }
   };
