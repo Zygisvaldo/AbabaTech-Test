@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { ROUTES } from '../Routes'
 
 const HomePage: React.FC = () => {
   
@@ -11,11 +12,11 @@ const HomePage: React.FC = () => {
       <h1>Home Page</h1>
       {isAuthenticated ? (
         <p>Welcome! You are logged in! Navigate to{' '}
-        <Link to="/movies">Movies</Link> and use CRUD.
+        <Link to={ROUTES.MOVIES}>Movies</Link> and use CRUD.
       </p>
       ) : (
         <p>Please log in to use CRUD. Or navigate to{' '}
-        <Link to="/movies">Movies</Link> and see my favorite movies list.
+        <Link to={ROUTES.MOVIES}>Movies</Link> and see my favorite movies list.
       </p>
       )}
     </div>

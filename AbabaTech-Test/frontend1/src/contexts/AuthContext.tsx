@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../Routes'
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -36,13 +37,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = (newToken: string) => {
     setToken(newToken);
-    navigate('/');
+    navigate(ROUTES.HOME);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     setToken(null);
-    navigate('/');
+    navigate(ROUTES.HOME);
     setIsAuthenticated(false);
   };
 

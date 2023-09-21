@@ -5,7 +5,6 @@ interface SuccessMessageContextProps {
   setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-
 const SuccessMessageContext = createContext<SuccessMessageContextProps | undefined>(undefined);
 
 export const useSuccessMessage = () => {

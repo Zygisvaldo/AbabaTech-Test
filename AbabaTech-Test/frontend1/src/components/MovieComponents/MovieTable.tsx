@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PaginationComponent from './PaginationComponent';
+import { ROUTES } from '../../Routes'
 
 interface Data {
   description: string;
@@ -139,7 +140,7 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
                         padding="none"
                         style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 200, maxHeight: 50 }}
                       >
-                        <Link to={`/movies/${row.id}`}>
+                        <Link to={`${ROUTES.MOVIE_DETAILS.replace(':id', row.id.toString())}`}>
                           {row.title}
                         </Link>
                       </TableCell>

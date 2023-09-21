@@ -91,7 +91,7 @@ const HomePage: React.FC = () => {
             backgroundColor: 'white',
             borderRadius: '4px',
             opacity: '0.9',
-            minWidth: '200px', // Adjust the width as needed
+            minWidth: '200px',
           }}
         />
       </Box>

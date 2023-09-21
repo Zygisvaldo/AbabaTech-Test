@@ -8,6 +8,7 @@ import MovieFormDialog from './MovieFormDialog';
 import { Button, Stack} from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSuccessMessage } from '../../contexts/SuccessMessageContext';
+import { ROUTES } from '../../Routes';
 
 interface MovieCardProps {
   movie: Movie;
@@ -32,7 +33,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const handleConfirmDelete = async () => {
     try {
       await deleteMovieById(movie.id);
-        navigate('/movies');
+        navigate(ROUTES.MOVIES);
         setSuccessMessage('Movie deleted successfully !');
     } catch (error) {
       console.error('Error deleting movie:', error);
@@ -64,7 +65,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <Button 
           variant="contained"
           color="secondary" 
-          onClick={() => navigate('/movies')} 
+          onClick={() => navigate(ROUTES.MOVIES)} 
           sx={{ color: 'white', marginBottom: 2 , marginTop: 2}}>
           Back
         </Button>
@@ -79,7 +80,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
           </Stack>
         ) : (
           <p>
-            Please <Link to="/auth">log in</Link> to use CRUD functionalities.
+            Please <Link to={ROUTES.AUTH}>log in</Link> to use CRUD functionalities.
           </p>
         )}
       </div>

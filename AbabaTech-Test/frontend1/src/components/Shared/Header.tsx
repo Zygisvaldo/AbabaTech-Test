@@ -6,13 +6,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext'
 import { styled } from '@mui/system';
 import { useSuccessMessage } from '../../contexts/SuccessMessageContext';
+import { ROUTES } from '../../Routes'
 
 const pages = [
-  { path: '/', label: 'Home' },
-  { path: '/movies', label: 'Movies' },
+  { path: ROUTES.HOME, label: 'Home' },
+  { path: ROUTES.MOVIES, label: 'Movies' },
 ];
 
-const settings = [{ path: '/auth', label: 'Log In' }];
+const settings = [{ path: ROUTES.AUTH, label: 'Log In' }];
 
 function ResponsiveAppBar() {
   const { token, logout } = useAuth();
