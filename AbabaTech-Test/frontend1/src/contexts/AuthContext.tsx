@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../Routes'
 
@@ -20,7 +20,7 @@ export const AuthContext = createContext<AuthContextProps>({
   logout: () => {},
 });
 
-const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 };
 
 export function useAuth() {
-  return React.useContext(AuthContext);
+  return useContext(AuthContext);
 }
 
 export default AuthProvider;

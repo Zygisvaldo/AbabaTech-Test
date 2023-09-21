@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import MovieTable from '../components/MovieComponents/MovieTable'
 import CircularProgress from '@mui/material/CircularProgress';
 import { fetchAllMovies } from '../services/api';
@@ -8,7 +8,7 @@ import CreateMovieButton from '../containers/MovieCreationHandler';
 import { AuthContext } from '../contexts/AuthContext';
 import { TextField, Select, MenuItem, Box } from '@mui/material';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const { isAuthenticated } = useContext(AuthContext);
@@ -62,7 +62,7 @@ const HomePage: React.FC = () => {
             backgroundColor: 'white',
             borderRadius: '4px',
             opacity: '0.9',
-            minWidth: '120px', // Adjust the width as needed
+            minWidth: '120px',
           }}
           onChange={(e) => handleOrderByChange(e.target.value)}
           value={orderBy.toString()}
@@ -75,7 +75,7 @@ const HomePage: React.FC = () => {
             backgroundColor: 'white',
             borderRadius: '4px',
             opacity: '0.9',
-            minWidth: '120px', // Adjust the width as needed
+            minWidth: '120px',
           }}
           onChange={(e) => handleOrderChange(e.target.value as 'ASC' | 'DESC')}
           value={order.toString()}

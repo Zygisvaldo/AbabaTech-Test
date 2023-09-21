@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Alert, Button, Stack, TextField } from '@mui/material';
 import { useAuthFormInput } from '../../hooks/useAuthFormInput';
@@ -16,7 +16,7 @@ interface AuthResponse {
   };
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
+const AuthForm = ({ isLogin }: AuthFormProps) => {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const { setSuccessMessage } = useSuccessMessage()!;

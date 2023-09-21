@@ -1,4 +1,3 @@
-import React from 'react';
 import { TablePagination } from '@mui/material';
 
 interface PaginationProps {
@@ -9,13 +8,13 @@ interface PaginationProps {
   onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PaginationComponent: React.FC<PaginationProps> = ({
+const PaginationComponent = ({
   count,
   page,
   rowsPerPage,
   onPageChange,
   onRowsPerPageChange,
-}) => {
+}: PaginationProps) => {
   return (
     <TablePagination
       rowsPerPageOptions={[5, 10, 25]}

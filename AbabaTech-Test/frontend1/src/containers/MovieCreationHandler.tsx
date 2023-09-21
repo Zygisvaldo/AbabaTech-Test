@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Movie } from '../types';
 import MovieFormDialog from '../components/MovieComponents/MovieFormDialog';
 import { createMovie } from '../services/api';
 import { Button} from '@mui/material';
 import { useSuccessMessage } from '../contexts/SuccessMessageContext';
 
-const CreateMovieButton: React.FC = () => {
+const CreateMovieButton = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { setSuccessMessage } = useSuccessMessage()!;
 

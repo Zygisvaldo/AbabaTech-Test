@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PaginationComponent from './PaginationComponent';
@@ -63,8 +63,8 @@ function EnhancedTableHead() {
 }
 
 export default function EnhancedTable({ movies }: MovieTableProps) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(rowsPerPage);
 
@@ -73,7 +73,7 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
   };
   
   
-  const rows = React.useMemo(() => {
+  const rows = useMemo(() => {
     return movies.length ? movies.map(movie => createData(movie.title, movie.description, movie.id)) : [];
   }, [movies]);
 
@@ -100,7 +100,7 @@ export default function EnhancedTable({ movies }: MovieTableProps) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   
-  const visibleRows = React.useMemo(
+  const visibleRows = useMemo(
     () => rows.slice(startIndex, endIndex),
     [rows, startIndex, endIndex]
   );

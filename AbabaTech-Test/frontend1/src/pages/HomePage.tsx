@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { ROUTES } from '../Routes'
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   
   const { isAuthenticated } = useContext(AuthContext);
 

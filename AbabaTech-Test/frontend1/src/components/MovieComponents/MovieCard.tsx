@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Movie } from '../../types';
 import DeleteConfirmationDialog from './DeleteConfirmationDialog '
 import { deleteMovieById, updateMovieById } from '../../services/api';
@@ -14,7 +14,7 @@ interface MovieCardProps {
   movie: Movie;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard = ({ movie }: MovieCardProps) => {
 
   const { isAuthenticated } = useContext(AuthContext);
   const [dialogOpen, setDialogOpen] = useState(false);

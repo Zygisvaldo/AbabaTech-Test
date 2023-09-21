@@ -1,11 +1,11 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useSuccessMessage } from '../../contexts/SuccessMessageContext';
 import { Alert } from '@mui/material';
 
-const SuccessMessageAlert: React.FC = () => {
+const SuccessMessageAlert = () => {
   const { successMessage, setSuccessMessage } = useSuccessMessage()!;
 
-  React.useEffect(() => {
+  useEffect(() => {
     let timer: NodeJS.Timeout;
     if (successMessage) {
       timer = setTimeout(() => {

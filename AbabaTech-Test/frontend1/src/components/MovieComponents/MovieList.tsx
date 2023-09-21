@@ -1,4 +1,3 @@
-import React from 'react';
 import { Movie } from '../../types';
 import MovieCard from './MovieCard';
 
@@ -6,7 +5,7 @@ interface MovieListProps {
   movies: Movie[];
 }
 
-const MovieList: React.FC<MovieListProps> = ({ movies }) => {
+const MovieList = ({ movies }: MovieListProps) => {
   return (
     <div>
       {movies.map(movie => (

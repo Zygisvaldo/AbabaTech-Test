@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MovieCard from '../components/MovieComponents/MovieCard';
 import { fetchMovieById } from '../services/api';
@@ -9,7 +9,7 @@ interface Movie {
   description: string;
 }
 
-const MovieDetails: React.FC = () => {
+const MovieDetails = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
 

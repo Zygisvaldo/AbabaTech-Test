@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, FC } from 'react';
+import { createContext, useState, useContext, FC } from 'react';
 
 interface SuccessMessageContextProps {
   successMessage: string | null;
@@ -15,7 +15,7 @@ interface SuccessMessageProviderProps {
   children: React.ReactNode;
 }
 
-export const SuccessMessageProvider: FC<SuccessMessageProviderProps> = ({ children }) => {
+export const SuccessMessageProvider = ({ children }: SuccessMessageProviderProps) => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   return (

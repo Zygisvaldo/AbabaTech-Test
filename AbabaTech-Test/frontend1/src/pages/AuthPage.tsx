@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import  AuthForm  from '../components/AuthPage/AuthForm';
 import { Button, Card, CardContent } from '@mui/material';
 import SimpleContainer from '../components/Shared/PageContainer'
 
-export const AuthPage: React.FC = () => {
+export const AuthPage = () => {
   
   const [isLogin, setIsLogin] = useState(true);
 

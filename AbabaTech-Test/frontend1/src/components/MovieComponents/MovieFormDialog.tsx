@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Movie } from '../../types';
 import { Alert, Button, Stack, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
@@ -10,13 +10,13 @@ interface MovieFormDialogProps {
   isCreate: boolean;
 }
 
-const MovieFormDialog: React.FC<MovieFormDialogProps> = ({
+const MovieFormDialog = ({
   open,
   onClose,
   movie,
   onSave,
   isCreate,
-}) => {
+}: MovieFormDialogProps) => {
   const [editedMovie, setEditedMovie] = useState<Movie>({ ...movie });
   const [error, setError] = useState('');
   const maxTitleCharacters = 50;
