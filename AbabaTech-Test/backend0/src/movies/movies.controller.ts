@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Put,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './movie.entity';
 import { JwtAuthGuard } from '../auth/jwt-atuh.guard';

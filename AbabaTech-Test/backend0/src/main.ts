@@ -11,5 +11,5 @@ const bootstrap = async () => {
   });
 
   await app.listen(3000);
-}
+};
 bootstrap();
