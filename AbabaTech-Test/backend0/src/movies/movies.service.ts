@@ -2,7 +2,8 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Movie } from './movie.entity';
-import { QueryParamsDto } from './queryParams.dto';
+import { QueryParamsDto } from './dto/queryParams.dto';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -11,8 +12,8 @@ export class MoviesService {
     private moviesRepository: Repository<Movie>,
   ) {}
 
-  async create(movieData: Partial<Movie>): Promise<Movie> {
-    const movie = this.moviesRepository.create(movieData);
+  async createMovie(createMovieDto: CreateMovieDto): Promise<Movie> {
+    const movie = this.moviesRepository.create(createMovieDto);
     return (await this.moviesRepository.save(movie)) as Movie;
   }
 

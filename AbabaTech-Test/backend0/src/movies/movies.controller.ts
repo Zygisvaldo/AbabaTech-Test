@@ -7,12 +7,15 @@ import {
   Put,
   Delete,
   UseGuards,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './movie.entity';
 import { JwtAuthGuard } from '../auth/jwt-atuh.guard';
-import { QueryParamsDto } from './queryParams.dto';
+import { QueryParamsDto } from './dto/queryParams.dto';
 import { Query } from '@nestjs/common';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Controller('movies')
 export class MoviesController {
@@ -20,8 +23,13 @@ export class MoviesController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() movieData): Promise<Movie> {
-    return this.moviesService.create(movieData);
+  createMovie(@Body() createMovieDto: CreateMovieDto): Promise<Movie> {
+    try {
+      const movie = this.moviesService.createMovie(createMovieDto);
+      return movie;
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get()
