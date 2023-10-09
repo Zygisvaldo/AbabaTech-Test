@@ -20,11 +20,12 @@ export class MoviesService {
 
   findAll(queryParams: QueryParamsDto): Promise<Movie[]> {
     const { searchQuery, order, orderBy } = queryParams;
+    console.log(searchQuery, order, orderBy);
     const query = this.moviesRepository.createQueryBuilder('movie');
 
     if (searchQuery) {
       query.where(
-        '(LOWER(movie.title) LIKE LOWER(:searchQuery) OR LOWER(movie.description) LIKE LOWER(:searchQuery)',
+        'LOWER(movie.title) LIKE LOWER(:searchQuery) OR LOWER(movie.description) LIKE LOWER(:searchQuery)',
         { searchQuery: `%${searchQuery}%` },
       );
     }

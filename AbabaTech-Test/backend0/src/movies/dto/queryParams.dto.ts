@@ -1,4 +1,5 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsEnum } from 'class-validator';
+import { OrderBy, OrderType } from '../query-types.enum';
 
 export class QueryParamsDto {
   @IsOptional()
@@ -7,9 +8,15 @@ export class QueryParamsDto {
 
   @IsOptional()
   @IsString()
-  order?: 'asc' | 'desc';
+  @IsEnum(OrderType, {
+    message: `Invalid 'order' value. Use 'asc' or 'desc'.`,
+  })
+  order?: OrderType;
 
   @IsOptional()
   @IsString()
+  @IsEnum(OrderBy, {
+    message: `Invalid 'orderBy' value. Use 'title' or 'description'.`,
+  })
   orderBy?: string;
 }
