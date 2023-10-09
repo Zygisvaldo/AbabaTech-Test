@@ -1,12 +1,16 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { LoginUserDto } from './dto/login-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -14,35 +18,41 @@ export class AuthService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private jwtService: JwtService,
-    private configService: ConfigService,
   ) {}
 
-  async register(createUserDto: CreateUserDto): Promise<void> {
-    const user = new User();
-    user.username = createUserDto.username;
-    user.password = bcrypt.hashSync(createUserDto.password, 8);
-    await this.usersRepository.save(user);
-  }
-
-  async validateUser(username: string): Promise<any> {
-    const user = await this.usersRepository.findOne({ where: { username } });
-    if (user) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
-  }
-
-  async login(loginUserDto: LoginUserDto): Promise<any> {
-    const user = await this.usersRepository.findOne({
-      where: { username: loginUserDto.username },
+  async register(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    const { username, password } = authCredentialsDto;
+    const salt = bcrypt.genSaltSync();
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    const user = this.usersRepository.create({
+      username,
+      password: hashedPassword,
     });
-    if (user && bcrypt.compareSync(loginUserDto.password, user.password)) {
-      const { password, ...result } = user;
-      const payload = { username: result.username, sub: result.id };
-      return {
-        access_token: this.jwtService.sign(payload),
-      };
+    try {
+      await this.usersRepository.save(user);
+    } catch (err) {
+      if (
+        err.message ===
+        'SQLITE_CONSTRAINT: UNIQUE constraint failed: user.username'
+      ) {
+        throw new ConflictException('Username already exists!');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
+  }
+
+  async login(
+    authCredentialsDto: AuthCredentialsDto,
+  ): Promise<{ accessToken: string }> {
+    const { username, password } = authCredentialsDto;
+    const user = await this.usersRepository.findOne({
+      where: { username },
+    });
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const payload: JwtPayload = { username };
+      const accessToken: string = await this.jwtService.sign(payload);
+      return { accessToken };
     } else {
       throw new UnauthorizedException('Invalid credentials');
     }
