@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Movie } from './movie.entity';
 import { QueryParamsDto } from './dto/queryParams.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -19,12 +20,11 @@ export class MoviesService {
 
   findAll(queryParams: QueryParamsDto): Promise<Movie[]> {
     const { searchQuery, order, orderBy } = queryParams;
-    console.log('Received query parameters:', { searchQuery, order, orderBy });
     const query = this.moviesRepository.createQueryBuilder('movie');
 
     if (searchQuery) {
       query.where(
-        'LOWER(movie.title) LIKE LOWER(:searchQuery) OR LOWER(movie.description) LIKE LOWER(:searchQuery)',
+        '(LOWER(movie.title) LIKE LOWER(:searchQuery) OR LOWER(movie.description) LIKE LOWER(:searchQuery)',
         { searchQuery: `%${searchQuery}%` },
       );
     }
@@ -36,37 +36,25 @@ export class MoviesService {
     return query.getMany();
   }
 
-  async findOne(id: number): Promise<Movie | undefined> {
-    if (isNaN(id)) {
-      throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
-    }
+  async getOneById(id: string): Promise<Movie> {
     const movie = await this.moviesRepository.findOne({ where: { id } });
     if (!movie) {
-      throw new HttpException('Movie not found', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `Movie with ID '${id}' not found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
     return movie;
   }
 
-  async update(id: number, updateMovieData): Promise<Movie> {
-    if (isNaN(id)) {
-      throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
-    }
-    const movie = await this.moviesRepository.findOne({ where: { id } });
-    if (!movie) {
-      throw new HttpException('Movie not found', HttpStatus.NOT_FOUND);
-    }
-    this.moviesRepository.merge(movie, updateMovieData);
+  async update(id: string, updateMovieDto: UpdateMovieDto): Promise<Movie> {
+    const movie = await this.getOneById(id);
+    this.moviesRepository.merge(movie, updateMovieDto);
     return this.moviesRepository.save(movie);
   }
 
-  async remove(id: number): Promise<void> {
-    if (isNaN(id)) {
-      throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
-    }
-    const movie = await this.moviesRepository.findOne({ where: { id } });
-    if (!movie) {
-      throw new HttpException('Movie not found', HttpStatus.NOT_FOUND);
-    }
+  async remove(id: string): Promise<void> {
+    const movie = await this.getOneById(id);
     await this.moviesRepository.remove(movie);
   }
 }
